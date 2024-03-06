@@ -1,8 +1,11 @@
 body {
     background-color: lightgray;
+    width: 100vw;
+    height: 100vh;
 }
 
-/* canvas {
-    height: 400px;
-    width: 1000px;
-} */
+.flex-container {
+    margin-top: 10rem;
+    display: flex;
+    justify-content: center;
+}

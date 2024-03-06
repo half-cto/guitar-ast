@@ -1,5 +1,6 @@
+import { Circle } from "./src/js/Circle.js";
 import { Guitar } from "./src/js/guitar.js";
-
+import { Music } from "./src/js/Music.js";
 /**
  * @type {HTMLCanvasElement}
  */
@@ -7,7 +8,9 @@ const canvas = document.getElementById("canvas");
 /**
  * @type {CanvasRenderingContext2D}
  */
+const music = new Music();
 const c = canvas.getContext("2d");
+window.context2d = c;
 
 const guitar = new Guitar({
     src: "./src/img/guitarneck.jpg",
@@ -15,33 +18,33 @@ const guitar = new Guitar({
         x: 0,
         y: 0,
     },
-    c,
 });
 
-c.fillStyle = "rgb(100,100,100)";
-c.fillRect(0, 0, canvas.width, canvas.height);
+// event listeners for app controll
+const input = document.getElementById("note");
+const button = document.getElementById("showNote");
 
-const scale = 1.5;
+button.addEventListener("click", (e) => {
+    e.preventDefault();
+    guitar.draw();
+    for (let i = 0; i < 6; i++) {
+        guitar.drawNote(input.value, i);
+    }
+});
+//
+
+const scale = 2;
 
 guitar.image.onload = () => {
-    // c.save();
     const img = guitar.image;
     canvas.width = img.width * scale;
     canvas.height = img.height * scale;
-    // guitar.draw();
-    c.scale(1.5, 1.5);
-    c.drawImage(
-        guitar.image,
-        guitar.position.x,
-        guitar.position.y,
-        img.width,
-        img.height
-    );
-    c.strokeStyle = "rgba(255, 0, 0, 1)";
-    c.beginPath();
-    c.lineWidth = 1;
-    c.arc(238, 45, 5, 0, Math.PI * 2);
-    c.stroke();
-    c.closePath();
-    // c.restore();
+    c.scale(2, 2);
+    guitar.draw();
+
+    const maj = music.getMaj("C");
+
+    for (const note of maj) {
+        guitar.drawNote(note, 0);
+    }
 };
