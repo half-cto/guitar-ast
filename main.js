@@ -1,6 +1,7 @@
 import { Circle } from "./src/js/Circle.js";
-import { Guitar } from "./src/js/guitar.js";
+import { Guitar } from "./src/js/Guitar.js";
 import { Music } from "./src/js/Music.js";
+import { Fretboard } from "./src/js/fretboard.js";
 /**
  * @type {HTMLCanvasElement}
  */
@@ -12,39 +13,49 @@ const music = new Music();
 const c = canvas.getContext("2d");
 window.context2d = c;
 
-const guitar = new Guitar({
-    src: "./src/img/guitarneck.jpg",
-    position: {
-        x: 0,
-        y: 0,
-    },
-});
+const fretboard = new Fretboard();
 
-// event listeners for app controll
-const input = document.getElementById("note");
-const button = document.getElementById("showNote");
+canvas.width = 1300;
+canvas.height = 300;
 
-button.addEventListener("click", (e) => {
-    e.preventDefault();
-    guitar.draw();
-    for (let i = 0; i < 6; i++) {
-        guitar.drawNote(input.value, i);
-    }
-});
-//
+c.fillStyle = "white";
+c.fillRect(0, 0, canvas.width, canvas.height);
 
-const scale = 2;
+fretboard.draw();
 
-guitar.image.onload = () => {
-    const img = guitar.image;
-    canvas.width = img.width * scale;
-    canvas.height = img.height * scale;
-    c.scale(2, 2);
-    guitar.draw();
+// const guitar = new Guitar({
+//   src: "./src/img/guitarneck.jpg",
+//   position: {
+//     x: 0,
+//     y: 0,
+//   },
+// });
 
-    const maj = music.getMaj("C");
+// // event listeners for app controll
+// const input = document.getElementById("note");
+// const button = document.getElementById("showNote");
 
-    for (const note of maj) {
-        guitar.drawNote(note, 0);
-    }
-};
+// button.addEventListener("click", (e) => {
+//   e.preventDefault();
+//   guitar.draw();
+//   for (let i = 0; i < 6; i++) {
+//     guitar.drawNote(input.value, i);
+//   }
+// });
+// //
+
+// const scale = 2;
+
+// guitar.image.onload = () => {
+//   const img = guitar.image;
+//   canvas.width = img.width * scale;
+//   canvas.height = img.height * scale;
+//   c.scale(2, 2);
+//   guitar.draw();
+
+//   const maj = music.getMaj("C");
+
+//   for (const note of maj) {
+//     guitar.drawNote(note, 0);
+//   }
+// };
