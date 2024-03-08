@@ -9,9 +9,11 @@ export class Fretboard {
     this.c = window.context2d;
     this.width = 5;
     this.height = 200;
-    this.spaceBetweenStrings = this.height / (this.strings - 1);
+    this.strDist = this.height / (this.strings - 1); // distance between strings
+    this.fretDist = 70; // distance between frets
   }
 
+  //draws the fretboard
   draw() {
     /**
      * @type {CanvasRenderingContext2D}
@@ -26,7 +28,7 @@ export class Fretboard {
       } else {
         c.fillStyle = "gray";
       }
-      c.fillRect(x + i * 70, y, this.width, this.height);
+      c.fillRect(x + i * this.fretDist, y, this.width, this.height);
     }
 
     // draw strings
@@ -37,15 +39,15 @@ export class Fretboard {
       c.lineWidth = 0.5;
       c.strokeRect(
         x + 2,
-        y + i * this.spaceBetweenStrings,
-        x + 70 * (this.frets - 1),
+        y + i * this.strDist,
+        x + this.fretDist * (this.frets - 1),
         stringWidth,
       );
       c.stroke();
       c.closePath();
     }
 
-    // draw fret marker
+    // draw fret markers
     const fretMarkerFrets = [3, 5, 7, 9, 12, 15];
     c.strokeStyle = "lightgray";
     c.fillStyle = "lightgray";
@@ -68,15 +70,12 @@ export class Fretboard {
 
   getFretMarkerY(string) {
     const result =
-      this.position.y +
-      string * this.spaceBetweenStrings -
-      this.spaceBetweenStrings / 2 +
-      1;
+      this.position.y + string * this.strDist - this.strDist / 2 + 1;
     return result;
   }
 
   getFretMarkerX(fret) {
-    return this.position.x + 70 * fret - 32;
+    return this.position.x + this.fretDist * fret - 32;
   }
 
   drawFretMarker(markerX, markerY) {
